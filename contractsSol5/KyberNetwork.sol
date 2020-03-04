@@ -173,26 +173,26 @@ contract KyberNetwork is Withdrawable2, Utils4, IKyberNetwork, ReentrancyGuard {
     }
 
     event FeeHandlerUpdated(IKyberFeeHandler newHandler);
-    event TradeLogicUpdated(IKyberMatchingEngine matchingEngine);
+    event MatchingEngineUpdated(IKyberMatchingEngine matchingEngine);
     event GasHelperUpdated(IGasHelper gasHelper);
     
     function setContracts(IKyberFeeHandler _feeHandler, 
-        IKyberMatchingEngine _tradeLogic,
+        IKyberMatchingEngine _matchingEngine,
         IGasHelper _gasHelper
     )
         external onlyAdmin 
     {
         require(_feeHandler != IKyberFeeHandler(0), "feeHandler 0");
-        require(_tradeLogic != IKyberMatchingEngine(0), "matchingEngine 0");
+        require(_matchingEngine != IKyberMatchingEngine(0), "matchingEngine 0");
 
         if(_feeHandler != feeHandler) {
             emit FeeHandlerUpdated(_feeHandler);
             feeHandler = _feeHandler;
         }
 
-        if(_tradeLogic != matchingEngine) {
-            emit TradeLogicUpdated(_tradeLogic);
-            matchingEngine = _tradeLogic;
+        if(_matchingEngine != matchingEngine) {
+            emit MatchingEngineUpdated(_matchingEngine);
+            matchingEngine = _matchingEngine;
         }
 
         if((_gasHelper != IGasHelper(0)) && (_gasHelper != gasHelper)) {
@@ -357,7 +357,7 @@ contract KyberNetwork is Withdrawable2, Utils4, IKyberNetwork, ReentrancyGuard {
     }
 
     function getContracts() external view 
-        returns(address kyberDaoAddress, address feeHandlerAddress, address tradeLogicAddress) 
+        returns(address kyberDaoAddress, address feeHandlerAddress, address matchingEngineAddress) 
     {
         return(address(kyberDAO), address(feeHandler), address(matchingEngine));
     }

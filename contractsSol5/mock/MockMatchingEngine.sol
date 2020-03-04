@@ -3,7 +3,7 @@ pragma solidity 0.5.11;
 import "../KyberMatchingEngine.sol";
 
 
-contract MockTradeLogic is KyberMatchingEngine {
+contract MockMatchingEngine is KyberMatchingEngine {
 
     mapping(address=>bytes5) public reserveAddressToId;
     mapping(bytes5=>address[]) public reserveIdToAddresses;

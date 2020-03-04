@@ -4,7 +4,7 @@ const MockDao = artifacts.require("MockDAO.sol");
 const KyberNetwork = artifacts.require("KyberNetwork.sol");
 const MockNetwork = artifacts.require("MockNetwork.sol");
 const FeeHandler = artifacts.require("KyberFeeHandler.sol");
-const TradeLogic = artifacts.require("KyberMatchingEngine.sol");
+const MatchingEngine = artifacts.require("KyberMatchingEngine.sol");
 const RateHelper = artifacts.require("KyberRateHelper.sol");
 
 const Helper = require("../helper.js");
@@ -232,7 +232,7 @@ contract('KyberNetwork', function(accounts) {
     
         before("global setup ", async() => {
             tempNetwork = await KyberNetwork.new(admin);
-            tempMatchingEngine = await TradeLogic.new(admin);
+            tempMatchingEngine = await MatchingEngine.new(admin);
             mockReserve = await MockReserve.new();
         
             await tempNetwork.addOperator(operator, {from: admin});
@@ -262,7 +262,7 @@ contract('KyberNetwork', function(accounts) {
             expectEvent(txResult, 'FeeHandlerUpdated', {
                 newHandler: feeHandler.address
             });
-            expectEvent(txResult, 'TradeLogicUpdated', {
+            expectEvent(txResult, 'MatchingEngineUpdated', {
                 matchingEngine: tempMatchingEngine.address
             });
             expectEvent(txResult, 'GasHelperUpdated', {
@@ -376,7 +376,7 @@ contract('KyberNetwork', function(accounts) {
             feeHandler = await FeeHandler.new(DAO.address, proxyForFeeHandler.address, network.address, KNC.address, burnBlockInterval);
 
             //init matchingEngine
-            matchingEngine = await TradeLogic.new(admin);
+            matchingEngine = await MatchingEngine.new(admin);
             await matchingEngine.setNetworkContract(network.address, {from: admin});
             await matchingEngine.setFeePayingPerReserveType(true, true, true, false, true, {from: admin});
 
